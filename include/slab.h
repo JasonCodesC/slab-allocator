@@ -1,4 +1,6 @@
 #include "config.h"
+#include "thread_cache.h"
+#include <mutex>
 
 
 class slab {
@@ -7,6 +9,8 @@ class slab {
         auto it = std::lower_bound(sizes.begin(), sizes.end(), size);
         return *it;
     }
+    std::mutex registry_mutex;
+    std::vector<std::unique_ptr<ThreadCache>> registry;
 
     public:
 
