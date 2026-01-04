@@ -3,8 +3,8 @@
 
 class ThreadCache { //represents memory that is free to be used.
 
-    void* pop(SizeClassId size_class); // alloc
-    void push(SizeClassId size_class, void* ptr); // free
+    void* pop(SizeClassId size_class) noexcept; // alloc
+    void push(SizeClassId size_class, void* ptr) noexcept; // free
 
     private:
 

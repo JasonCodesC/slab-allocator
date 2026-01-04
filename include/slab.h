@@ -4,8 +4,9 @@
 
 
 class slab {
-
-    inline int8_t get_bucket(SizeClassId size) {
+    // Maybe switch to linear scan cuz only 9 els so big O is neglible
+    // so test this
+    inline int8_t get_bucket(SizeClassId size) noexcept { // Get correct bucket size quickly
         auto it = std::lower_bound(sizes.begin(), sizes.end(), size);
         return *it;
     }
@@ -14,6 +15,6 @@ class slab {
 
     public:
 
-    void* alloc(SizeClassId size, int16_t align);
-    void free(void* ptr);
+    void* alloc(SizeClassId size, int16_t align) noexcept;
+    void free(void* ptr) noexcept;
 };
