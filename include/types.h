@@ -1,5 +1,7 @@
+#pragma once
 #include <cstdint>
 #include <array>
+#include <cstddef>
 
 using SizeClassId = std::uint16_t;
 using ThreadId = std::uint16_t;

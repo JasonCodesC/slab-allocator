@@ -1,3 +1,4 @@
+#pragma once
 #include "../include/slab.h"
 
 namespace {
@@ -6,7 +7,7 @@ namespace {
 }
 
 void* slab::alloc(SizeClassId size, int16_t align) noexcept {
-    SizeClassId bucket_size = get_bucket(size);
+    SizeClassId size_class = get_bucket(size);
 }
 
 void slab::free(void* ptr) noexcept {

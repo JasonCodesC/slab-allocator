@@ -1,6 +1,9 @@
+#pragma once
 #include "config.h"
 #include "thread_cache.h"
 #include <mutex>
+#include <vector>
+#include <memory>
 
 
 class slab {
