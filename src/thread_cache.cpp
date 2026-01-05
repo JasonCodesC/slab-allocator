@@ -20,12 +20,12 @@ void ThreadCache::push(SizeClassId size_class, void* ptr) noexcept {
     ++counts[size_class];
 }
 
-void ThreadCache::push_remote(void* ptr) noexcept{
+[[gnu::noinline]] void ThreadCache::push_remote(void* ptr) noexcept{
     Node* node = static_cast<Node*>(ptr);
     RemoteFree::push_MPSC(incoming_head, node);
 }
 
-void ThreadCache::drain_remote() noexcept {
+[[gnu::noinline]] void ThreadCache::drain_remote() noexcept {
     Node* list = RemoteFree::steal_all(incoming_head);
     while (list) {
         Node* next = list->next;
