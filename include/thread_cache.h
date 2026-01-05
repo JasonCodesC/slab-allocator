@@ -4,11 +4,12 @@
 
 
 class ThreadCache { //represents memory that is free to be used.
+    public:
 
-    inline void* pop(SizeClassId size_class) noexcept; // alloc
-    inline void push(SizeClassId size_class, void* ptr) noexcept; // free
-    inline void push_remote(void* ptr) noexcept;
-    inline void drain_remote() noexcept;
+    void* pop(SizeClassId size_class) noexcept; // alloc
+    void push(SizeClassId size_class, void* ptr) noexcept; // free
+    void push_remote(void* ptr) noexcept;
+    void drain_remote() noexcept;
 
     private:
 

@@ -4,17 +4,26 @@
 #include <mutex>
 #include <vector>
 #include <memory>
+#include "page_pool.h"
+#include <limits>
 
 
 class slab {
+
+    static ThreadCache* slab::ensure_registered(slab* self) noexcept;
+
     // Maybe switch to linear scan cuz only 9 els so big O is neglible
     // so test this
-    inline int8_t get_bucket(SizeClassId size) noexcept { // Get correct bucket size quickly
+    inline SizeClassId get_bucket(SizeClassId size) noexcept {
         auto it = std::lower_bound(sizes.begin(), sizes.end(), size);
-        return *it;
+        if (it == sizes.end()) {
+            return static_cast<SizeClassId>(NumClasses);
+        }
+        return static_cast<SizeClassId>(it - sizes.begin());
     }
     std::mutex registry_mutex;
     std::vector<std::unique_ptr<ThreadCache>> registry;
+    PagePool pool;
 
     public:
 
