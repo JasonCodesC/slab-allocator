@@ -3,7 +3,7 @@
 
 namespace {
     thread_local ThreadCache* t_cache = nullptr;
-    thread_local ThreadId t_id = 0; // MAY BE POINTLESS
+    thread_local ThreadId t_id = 0;
     thread_local std::unique_ptr<ThreadCache> t_local_cache;
     thread_local slab* t_owner = nullptr;
     thread_local std::size_t t_epoch = 0;
