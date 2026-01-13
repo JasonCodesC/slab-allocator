@@ -1,4 +1,3 @@
-#pragma once
 #include "../include/slab.h"
 #include <iostream>
 
@@ -6,6 +5,9 @@ namespace {
     thread_local ThreadCache* t_cache = nullptr;
     thread_local ThreadId t_id = 0; // MAY BE POINTLESS
     thread_local std::unique_ptr<ThreadCache> t_local_cache;
+    thread_local slab* t_owner = nullptr;
+    thread_local std::size_t t_epoch = 0;
+    std::atomic<std::size_t> global_epoch{1};
 
     // Canonicalize alignment to the three supported choices.
     inline std::size_t normalize_align(std::size_t align) noexcept {
@@ -16,7 +18,8 @@ namespace {
 }
 
 ThreadCache* slab::ensure_registered(slab* self) noexcept {
-    if (t_cache) {return t_cache;}
+    if (t_cache && t_owner == self && t_epoch == self->epoch) {return t_cache;}
+    t_cache = nullptr;
 
     if (!t_local_cache) {
         t_local_cache = std::make_unique<ThreadCache>();
@@ -26,8 +29,12 @@ ThreadCache* slab::ensure_registered(slab* self) noexcept {
     t_id = static_cast<ThreadId>(self->registry.size());
     self->registry.push_back(std::move(t_local_cache));
     t_cache = self->registry.back().get();
+    t_owner = self;
+    t_epoch = self->epoch;
     return t_cache;
 }
+
+slab::slab() noexcept : epoch(global_epoch.fetch_add(1, std::memory_order_relaxed)) {}
 
 void* slab::alloc(SizeClassId size, size_t align) noexcept {
     ThreadCache* cache = ensure_registered(this);

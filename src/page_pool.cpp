@@ -1,4 +1,3 @@
-#pragma once
 #include "../include/page_pool.h"
 #include <sys/mman.h>
 #include <iostream>

@@ -1,26 +1,6 @@
-#pragma once
 #include "../include/thread_cache.h"
 
-
-void* ThreadCache::pop(SizeClassId size_class) noexcept {
-    Node* head = heads[size_class];
-    if (!head) {return nullptr;};
-
-    heads[size_class] = head->next;
-    --counts[size_class];
-
-    return static_cast<void*>(head);
-}
-
-void ThreadCache::push(SizeClassId size_class, void* ptr) noexcept {
-    Node* node = static_cast<Node*>(ptr);
-    node->next = heads[size_class];
-
-    heads[size_class] = node;
-    ++counts[size_class];
-}
-
-[[gnu::noinline]] void ThreadCache::push_remote(void* ptr) noexcept{
+[[gnu::noinline]] void ThreadCache::push_remote(void* ptr) noexcept {
     Node* node = static_cast<Node*>(ptr);
     RemoteFree::push_MPSC(incoming_head, node);
 }
