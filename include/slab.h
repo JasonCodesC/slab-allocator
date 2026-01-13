@@ -6,14 +6,14 @@
 #include <memory>
 #include "page_pool.h"
 #include <limits>
+#include <atomic>
 
 
 class slab {
 
-    static ThreadCache* slab::ensure_registered(slab* self) noexcept;
+    static ThreadCache* ensure_registered(slab* self) noexcept;
 
-    #pragma unroll
-   [[gnu::always_inline]] inline constexpr SizeClassId get_bucket(SizeClassId size) noexcept {
+    [[gnu::always_inline]] inline constexpr SizeClassId get_bucket(SizeClassId size) noexcept {
         for (SizeClassId i = 0; i < NumClasses; ++i) {
             if (size <= sizes[i]) { return i; }
         }
@@ -22,9 +22,11 @@ class slab {
     std::mutex registry_mutex;
     std::vector<std::unique_ptr<ThreadCache>> registry;
     PagePool pool;
+    const std::size_t epoch;
 
     public:
 
+    slab() noexcept;
     void* alloc(SizeClassId size, std::size_t align) noexcept;
     void free(void* ptr) noexcept;
 };
