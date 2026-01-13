@@ -1,0 +1,3 @@
+multialign iters/thread=100000
+slab: 8462.96 us, 3.54486e+07 ops/sec
+malloc: 21471.5 us, 1.3972e+07 ops/sec

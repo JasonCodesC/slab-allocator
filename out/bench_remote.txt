@@ -1,0 +1,3 @@
+remote iters=100000
+slab: 33161 us, 3.01559e+06 ops/sec
+malloc: 26599.2 us, 3.75951e+06 ops/sec

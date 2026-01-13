@@ -1,0 +1,3 @@
+remote_many_to_one iters/producer=100000
+slab: 128569 us, 3.88897e+06 ops/sec
+malloc: 71777 us, 6.96602e+06 ops/sec

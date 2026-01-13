@@ -1,0 +1,5 @@
+alignment iters=100000
+slab: 17255.4 us, 5.7953e+06 ops/sec
+malloc: 13534 us, 7.3888e+06 ops/sec
+slab: 15748 us, 6.35003e+06 ops/sec
+malloc: 77106.2 us, 1.29691e+06 ops/sec

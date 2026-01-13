@@ -1,0 +1,3 @@
+remote_six iters/pair=100000
+slab: 116931 us, 2.56562e+06 ops/sec
+malloc: 25500 us, 1.17647e+07 ops/sec

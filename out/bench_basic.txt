@@ -1,0 +1,3 @@
+basic iters=100000
+slab: 19005 us, 5.26178e+06 ops/sec
+malloc: 15804.6 us, 6.32728e+06 ops/sec
